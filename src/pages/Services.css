@@ -1,0 +1,225 @@
+.servicesPage__hero {
+  padding: 54px 18px 28px;
+}
+
+.servicesPage__heroInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.18), var(--surfaceA));
+  box-shadow: var(--shadow);
+  padding: 18px 18px;
+  text-align: center;
+}
+
+.servicesPage__heroTitle {
+  margin: 0;
+  font-size: clamp(28px, 3.6vw, 46px);
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.servicesPage__heroSubtitle {
+  margin: 12px auto 0;
+  max-width: 72ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.servicesPage__section {
+  padding: 24px 18px;
+}
+
+.servicesPage__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.servicesPage__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.servicesPage__card {
+  border-radius: 20px;
+  padding: 16px 16px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surfaceA) 92%, transparent);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.servicesPage__card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklab, var(--border) 85%, transparent);
+  background: color-mix(in oklab, var(--surfaceB) 92%, transparent);
+}
+
+.servicesPage__iconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-2);
+}
+
+.servicesPage__iconWrap--red { background: rgba(220, 38, 38, 0.16); border-color: rgba(220, 38, 38, 0.25); }
+.servicesPage__iconWrap--blue { background: rgba(37, 99, 235, 0.16); border-color: rgba(37, 99, 235, 0.25); }
+.servicesPage__iconWrap--green { background: rgba(22, 163, 74, 0.16); border-color: rgba(22, 163, 74, 0.25); }
+.servicesPage__iconWrap--purple { background: rgba(168, 85, 247, 0.16); border-color: rgba(168, 85, 247, 0.25); }
+.servicesPage__iconWrap--orange { background: rgba(249, 115, 22, 0.16); border-color: rgba(249, 115, 22, 0.25); }
+
+.servicesPage__icon {
+  width: 24px;
+  height: 24px;
+  color: color-mix(in oklab, var(--text) 92%, transparent);
+}
+
+.servicesPage__cardTitle {
+  margin-top: 12px;
+  font-weight: 950;
+  letter-spacing: 0.2px;
+}
+
+.servicesPage__cardText {
+  margin-top: 8px;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.servicesPage__contact {
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: var(--surfaceA);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.servicesPage__contactTitle {
+  font-weight: 950;
+  font-size: 22px;
+  text-align: center;
+}
+
+.servicesPage__contactText {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.servicesPage__contactGrid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.servicesPage__contactCard {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--overlay);
+  padding: 14px;
+}
+
+.servicesPage__contactIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-2);
+}
+
+.servicesPage__contactIcon--red { background: rgba(220, 38, 38, 0.16); border-color: rgba(220, 38, 38, 0.22); }
+.servicesPage__contactIcon--green { background: rgba(22, 163, 74, 0.16); border-color: rgba(22, 163, 74, 0.22); }
+.servicesPage__contactIcon--blue { background: rgba(37, 99, 235, 0.16); border-color: rgba(37, 99, 235, 0.22); }
+
+.servicesPage__contactSvg {
+  width: 20px;
+  height: 20px;
+  color: color-mix(in oklab, var(--text) 92%, transparent);
+}
+
+.servicesPage__contactCardTitle {
+  margin-top: 10px;
+  font-weight: 950;
+}
+
+.servicesPage__contactLines {
+  margin-top: 8px;
+  color: color-mix(in oklab, var(--text) 74%, transparent);
+  line-height: 1.6;
+}
+
+.servicesPage__phone {
+  display: block;
+  width: fit-content;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.servicesPage__phone:hover {
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--overlay) 85%, transparent);
+  border-color: color-mix(in oklab, var(--border) 75%, transparent);
+}
+
+.servicesPage__phone:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--ring) 55%, transparent);
+}
+
+.servicesPage__email {
+  display: inline-flex;
+  width: fit-content;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 950;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.servicesPage__email:hover {
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--overlay) 85%, transparent);
+  border-color: color-mix(in oklab, var(--border) 75%, transparent);
+}
+
+.servicesPage__email:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--ring) 55%, transparent);
+}
+
+.servicesPage__contactSingle {
+  margin-top: 8px;
+  color: color-mix(in oklab, var(--text) 74%, transparent);
+  line-height: 1.6;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 980px) {
+  .servicesPage__grid {
+    grid-template-columns: 1fr;
+  }
+  .servicesPage__contactGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

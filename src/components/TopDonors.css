@@ -1,0 +1,236 @@
+.donors {
+  padding: 72px 18px;
+}
+
+.donors__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.donors__header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.donors__title {
+  margin: 0;
+  font-size: clamp(26px, 3.2vw, 44px);
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.donors__meta {
+  margin-top: 10px;
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: color-mix(in oklab, var(--text) 78%, transparent);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.donors__subtitle {
+  margin: 12px auto 0;
+  max-width: 72ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.donors__grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+.donors__card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surfaceA);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.25);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.donors__card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklab, var(--border) 85%, transparent);
+  background: var(--surfaceB);
+}
+
+.donors__card--featured {
+  border-color: rgba(250, 204, 21, 0.20);
+  box-shadow: 0 22px 65px rgba(250, 204, 21, 0.10), 0 18px 50px rgba(0,0,0,0.28);
+}
+
+.donors__rank {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+}
+
+.donors__rankBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--border-2) 90%, transparent);
+  background: color-mix(in oklab, var(--glass) 70%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.donors__rankNum {
+  font-weight: 950;
+  letter-spacing: 0.2px;
+  font-size: 12px;
+  color: color-mix(in oklab, var(--text) 92%, transparent);
+}
+
+.donors__photoWrap {
+  height: 220px;
+  position: relative;
+}
+
+.donors__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.03);
+  filter: saturate(1.1) contrast(1.05);
+}
+
+.donors__photoShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.62));
+}
+
+.donors__body {
+  position: relative;
+  padding: 16px 16px 18px;
+}
+
+.donors__name {
+  font-weight: 950;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+
+.donors__role {
+  margin-top: 6px;
+  color: color-mix(in oklab, var(--text) 70%, transparent);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.donors__amountCard {
+  margin-top: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(22, 163, 74, 0.18);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.14), var(--surfaceA));
+  padding: 12px 12px;
+}
+
+.donors__amountText {
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 12px;
+}
+
+.donors__amount {
+  margin-top: 8px;
+  font-weight: 950;
+  font-size: 22px;
+}
+
+.donors__amountSub {
+  margin-top: 2px;
+  color: color-mix(in oklab, var(--text) 65%, transparent);
+  font-size: 12px;
+}
+
+.donors__thanks {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.donors__thanksPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-2);
+  background: var(--card);
+  font-weight: 900;
+}
+
+.donors__thanksIcon {
+  width: 16px;
+  height: 16px;
+  color: color-mix(in oklab, var(--text) 92%, transparent);
+}
+
+.donors__cta {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.donors__ctaCard {
+  width: 100%;
+  max-width: 860px;
+  border-radius: 22px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), var(--surfaceA));
+  box-shadow: var(--shadow);
+  padding: 18px 18px;
+  text-align: center;
+}
+
+.donors__ctaTitle {
+  font-weight: 950;
+  font-size: 20px;
+}
+
+.donors__ctaText {
+  margin-top: 10px;
+  color: color-mix(in oklab, var(--text) 75%, transparent);
+  line-height: 1.6;
+}
+
+.donors__ctaBtn {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 950;
+  color: color-mix(in oklab, var(--text) 95%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border-2) 90%, transparent);
+  background: color-mix(in oklab, var(--card-2) 75%, transparent);
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.donors__ctaBtn:hover {
+  transform: translateY(-1px);
+  background: var(--card-2);
+  border-color: color-mix(in oklab, var(--border-2) 95%, transparent);
+}
+
+@media (max-width: 980px) {
+  .donors__grid {
+    grid-template-columns: 1fr;
+  }
+}
+

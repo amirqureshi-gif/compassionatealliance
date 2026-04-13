@@ -1,0 +1,159 @@
+.hero {
+  position: relative;
+  min-height: calc(100vh - 76px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 64px 18px 72px;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://i.ibb.co/MkDP3MD3/498711506-3948087515406339-1826007789085054437-n.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.1) contrast(1.05);
+  transform: scale(1.06);
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(800px 360px at 20% 10%, rgba(22, 163, 74, 0.35), transparent 55%),
+    radial-gradient(700px 380px at 80% 30%, rgba(37, 99, 235, 0.30), transparent 55%),
+    linear-gradient(180deg, rgba(7, 11, 20, 0.25), rgba(7, 11, 20, 0.78));
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.hero__content {
+  text-align: center;
+  padding: 28px 18px;
+  border-radius: 24px;
+  background: var(--surfaceA);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  font-size: 12px;
+  color: color-mix(in oklab, var(--text) 85%, transparent);
+  background: var(--card);
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.hero__title {
+  margin: 0;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: clamp(34px, 6vw, 64px);
+}
+
+.hero__titleAccent {
+  display: block;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #fde68a, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 18px 50px rgba(245, 158, 11, 0.25);
+}
+
+.hero__titleSub {
+  display: block;
+  margin-top: 14px;
+  font-size: clamp(14px, 2.2vw, 22px);
+  font-weight: 800;
+  color: color-mix(in oklab, var(--text) 78%, transparent);
+  letter-spacing: 0.04em;
+}
+
+.hero__lead {
+  margin: 18px auto 0;
+  max-width: 64ch;
+  font-size: clamp(15px, 2.1vw, 20px);
+  line-height: 1.7;
+  color: color-mix(in oklab, var(--text) 78%, transparent);
+}
+
+.hero__ctaRow {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* shared button styles for hero only (still per-component CSS) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--border-2) 90%, transparent);
+  background: var(--card);
+  color: color-mix(in oklab, var(--text) 92%, transparent);
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  background: var(--card-2);
+  border-color: color-mix(in oklab, var(--border-2) 95%, transparent);
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.95), rgba(21, 128, 61, 0.8));
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+.btn--primary:hover {
+  background: linear-gradient(135deg, rgba(22, 163, 74, 1), rgba(21, 128, 61, 0.92));
+}
+
+.btn--danger {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.95), rgba(185, 28, 28, 0.82));
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+.btn--ghost {
+  background: color-mix(in oklab, var(--surfaceA) 55%, transparent);
+}
+
+.btn__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.btn__iconRight {
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+}
+
+@media (max-width: 520px) {
+  .btn {
+    width: 100%;
+  }
+}
+
