@@ -1,7 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+module.exports = (env, argv) => {
+  const isProd = argv.mode === 'production';
+
+  return {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -9,8 +12,7 @@ module.exports = {
     publicPath: '/',
     clean: true,
   },
-  mode: 'development',
-  devtool: 'source-map',
+  devtool: isProd ? false : 'source-map',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -39,7 +41,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    port: 3000,
+    port: process.env.PORT ? Number(process.env.PORT) : 3000,
     historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, 'public'),
@@ -47,5 +49,6 @@ module.exports = {
     hot: true,
     open: false,
   },
+};
 };
 
