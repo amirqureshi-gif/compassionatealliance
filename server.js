@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
@@ -17,6 +18,16 @@ app.use(
 
 // SPA fallback (React Router)
 app.get('*', (req, res) => {
+  if (!fs.existsSync(indexHtmlPath)) {
+    res
+      .status(500)
+      .type('text/plain')
+      .send(
+        'Build output not found. Ensure `npm run build` ran and produced dist/index.html.'
+      );
+    return;
+  }
+
   res.sendFile(indexHtmlPath);
 });
 
