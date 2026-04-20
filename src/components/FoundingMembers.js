@@ -1,6 +1,7 @@
 import React from 'react';
 import { Users, Calendar } from 'lucide-react';
 
+import groupPhoto from '../assets/group.jpg';
 import './FoundingMembers.css';
 
 const FoundingMembers = () => {
@@ -30,7 +31,7 @@ const FoundingMembers = () => {
         <div className="founders__card">
           <div className="founders__media">
             <img
-              src="https://i.ibb.co/RGDQxkg2/Whats-App-Image-2025-08-05-at-17-24-47.jpg"
+              src={groupPhoto}
               alt="Founding Members gathering at the time of Inauguration Meeting"
               className="founders__img"
               onError={(e) => {

@@ -10,7 +10,7 @@
 .hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://i.ibb.co/MkDP3MD3/498711506-3948087515406339-1826007789085054437-n.jpg');
+  background-image: url('../assets/bg1.png');
   background-size: cover;
   background-position: center;
   filter: saturate(1.1) contrast(1.05);
