@@ -87,6 +87,10 @@ body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
+  /* Default reading alignment site-wide; sections with text-align: center keep centered copy */
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
   /* Smooth page gradient (adapts with light/dark tokens) */
   background-color: var(--bg);
   background-image: linear-gradient(
@@ -113,8 +117,10 @@ a {
 button,
 input,
 select,
-textarea {
+textarea,
+label {
   font: inherit;
+  text-align: start;
 }
 
 /*
