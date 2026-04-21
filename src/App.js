@@ -5,6 +5,7 @@ import './App.css';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { useSiteContent } from './context/SiteContentProvider';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Members from './pages/Members';
@@ -14,6 +15,8 @@ import Donation from './pages/Donation';
 import AboutUs from './pages/AboutUs';
 
 function App() {
+  const { error: siteError, reload: reloadSite } = useSiteContent();
+
   const getInitialTheme = () => {
     try {
       const saved = localStorage.getItem('theme');
@@ -45,6 +48,16 @@ function App() {
   return (
     <Router>
       <div className="app">
+        {siteError ? (
+          <div className="app__banner" role="status">
+            <div className="app__bannerText">
+              Live content could not be loaded ({siteError}). Showing built-in defaults where available.
+            </div>
+            <button type="button" className="app__bannerBtn" onClick={() => reloadSite()}>
+              Retry
+            </button>
+          </div>
+        ) : null}
         <Header theme={theme} onToggleTheme={toggleTheme} />
         <main className="app__main">
           <Routes>

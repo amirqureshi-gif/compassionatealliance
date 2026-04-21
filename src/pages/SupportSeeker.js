@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 
+import { useSiteSection } from '../context/SiteContentProvider';
+
 import './SupportSeeker.css';
 
+const FALLBACK = {
+  heroTitle: 'Support for Families',
+  heroSubtitle: "We're here — our team is ready to provide immediate assistance.",
+  title: 'Request Support',
+  subtitle:
+    'Please fill out this form so we can better understand your needs and provide appropriate assistance.',
+};
+
 const SupportSeeker = () => {
+  const remote = useSiteSection('support_page') || {};
+  const d = { ...FALLBACK, ...remote };
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -43,18 +56,16 @@ const SupportSeeker = () => {
     <div className="supportPage">
       <section className="supportPage__hero">
         <div className="supportPage__heroInner">
-          <h1 className="supportPage__heroTitle">Support for Families</h1>
-          <p className="supportPage__heroSubtitle">We’re here — our team is ready to provide immediate assistance.</p>
+          <h1 className="supportPage__heroTitle">{d.heroTitle}</h1>
+          <p className="supportPage__heroSubtitle">{d.heroSubtitle}</p>
         </div>
       </section>
 
       <section className="supportPage__section">
         <div className="supportPage__inner">
           <div className="supportPage__header">
-            <h2 className="supportPage__title">Request Support</h2>
-            <p className="supportPage__subtitle">
-              Please fill out this form so we can better understand your needs and provide appropriate assistance.
-            </p>
+            <h2 className="supportPage__title">{d.title}</h2>
+            <p className="supportPage__subtitle">{d.subtitle}</p>
           </div>
 
           <div className="supportPage__card">
@@ -84,52 +95,42 @@ const SupportSeeker = () => {
                 </div>
               </div>
 
+              <div className="supportPage__field">
+                <label className="supportPage__label">Email Address *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="supportPage__input"
+                />
+              </div>
+
+              <div className="supportPage__field">
+                <label className="supportPage__label">Address *</label>
+                <textarea
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  required
+                  rows={3}
+                  className="supportPage__textarea"
+                />
+              </div>
+
               <div className="supportPage__grid2">
                 <div className="supportPage__field">
-                  <label className="supportPage__label">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="supportPage__input"
-                  />
-                </div>
-                <div className="supportPage__field">
                   <label className="supportPage__label">Relationship to Deceased *</label>
-                  <select
+                  <input
+                    type="text"
                     name="relationship"
                     value={formData.relationship}
                     onChange={handleInputChange}
                     required
                     className="supportPage__input"
-                  >
-                    <option value="">Select relationship</option>
-                    <option value="spouse">Spouse</option>
-                    <option value="child">Child</option>
-                    <option value="parent">Parent</option>
-                    <option value="sibling">Sibling</option>
-                    <option value="relative">Other Relative</option>
-                    <option value="friend">Friend</option>
-                  </select>
+                  />
                 </div>
-              </div>
-
-              <div className="supportPage__field">
-                <label className="supportPage__label">Address</label>
-                <textarea
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  rows={2}
-                  className="supportPage__textarea"
-                />
-              </div>
-
-              <div className="supportPage__divider" />
-
-              <div className="supportPage__subhead">Deceased Information</div>
-              <div className="supportPage__grid2">
                 <div className="supportPage__field">
                   <label className="supportPage__label">Name of Deceased *</label>
                   <input
@@ -141,40 +142,35 @@ const SupportSeeker = () => {
                     className="supportPage__input"
                   />
                 </div>
-                <div className="supportPage__field">
-                  <label className="supportPage__label">Date of Death *</label>
-                  <input
-                    type="date"
-                    name="date_of_death"
-                    value={formData.date_of_death}
-                    onChange={handleInputChange}
-                    required
-                    className="supportPage__input"
-                  />
-                </div>
               </div>
 
-              <div className="supportPage__divider" />
-
-              <div className="supportPage__subhead">Additional Information</div>
               <div className="supportPage__field">
+                <label className="supportPage__label">Date of Death *</label>
+                <input
+                  type="date"
+                  name="date_of_death"
+                  value={formData.date_of_death}
+                  onChange={handleInputChange}
+                  required
+                  className="supportPage__input"
+                />
+              </div>
+
+              <div className="supportPage__field">
+                <label className="supportPage__label">Additional Information</label>
                 <textarea
                   name="additional_info"
                   value={formData.additional_info}
                   onChange={handleInputChange}
                   rows={4}
-                  placeholder="Please provide any additional details about your situation or specific needs..."
                   className="supportPage__textarea"
                 />
               </div>
 
-              <div className="supportPage__actions">
-                <button type="submit" className="supportPage__btn">
-                  <Send className="supportPage__btnIcon" />
-                  Submit Support Request
-                </button>
-                <div className="supportPage__hint">We will contact you within 2 hours of receiving your request.</div>
-              </div>
+              <button type="submit" className="supportPage__btn">
+                <Send className="supportPage__btnIcon" />
+                Submit Request
+              </button>
             </form>
           </div>
         </div>
@@ -184,4 +180,3 @@ const SupportSeeker = () => {
 };
 
 export default SupportSeeker;
-

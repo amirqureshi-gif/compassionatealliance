@@ -1,29 +1,50 @@
 import React from 'react';
 import { Award, Heart, Star } from 'lucide-react';
 
+import { useSiteSection } from '../context/SiteContentProvider';
+
 import './TopDonors.css';
 
-const TopDonors = () => {
-  const topDonors = [
+const FALLBACK = {
+  title: 'Top 3 Donor Members of the Month',
+  meta: 'July 2025',
+  subtitle: 'Following 3 members donated maximum contribution in the month of July 2025',
+  amountBlurbMonth: 'July 2025',
+  donors: [
     {
       name: 'Sara Qureshi',
       amount: 'Rs. 20,000/-',
       rank: 1,
-      image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+      image:
+        'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
     },
     {
       name: 'Farhan Qureshi',
       amount: 'Rs. 15,000/-',
       rank: 2,
-      image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+      image:
+        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
     },
     {
       name: 'Amina Qureshi',
       amount: 'Rs. 10,000/-',
       rank: 3,
-      image: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+      image:
+        'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
     },
-  ];
+  ],
+  ctaTitle: 'Become a Top Donor',
+  ctaText:
+    'Your generous contributions help us provide essential services to families in their time of need. Every donation makes a difference.',
+};
+
+const TopDonors = () => {
+  const remote = useSiteSection('top_donors') || {};
+  const d = {
+    ...FALLBACK,
+    ...remote,
+    donors: Array.isArray(remote.donors) && remote.donors.length ? remote.donors : FALLBACK.donors,
+  };
 
   const getRankIcon = (rank) => {
     switch (rank) {
@@ -38,30 +59,17 @@ const TopDonors = () => {
     }
   };
 
-  const getRankColor = (rank) => {
-    switch (rank) {
-      case 1:
-        return 'from-yellow-400 to-yellow-600';
-      case 2:
-        return 'from-gray-300 to-gray-500';
-      case 3:
-        return 'from-orange-400 to-orange-600';
-      default:
-        return 'from-blue-400 to-blue-600';
-    }
-  };
-
   return (
     <section className="donors">
       <div className="donors__inner">
         <div className="donors__header">
-          <h2 className="donors__title">Top 3 Donor Members of the Month</h2>
-          <div className="donors__meta">July 2025</div>
-          <p className="donors__subtitle">Following 3 members donated maximum contribution in the month of July 2025</p>
+          <h2 className="donors__title">{d.title}</h2>
+          <div className="donors__meta">{d.meta}</div>
+          <p className="donors__subtitle">{d.subtitle}</p>
         </div>
 
         <div className="donors__grid">
-          {topDonors.map((donor, index) => (
+          {d.donors.map((donor, index) => (
             <div
               // eslint-disable-next-line react/no-array-index-key
               key={index}
@@ -85,7 +93,7 @@ const TopDonors = () => {
 
                 <div className="donors__amountCard">
                   <div className="donors__amountText">
-                    In the month of July 2025, {donor.name.split(' ')[0]} donated
+                    In the month of {d.amountBlurbMonth}, {donor.name.split(' ')[0]} donated
                   </div>
                   <div className="donors__amount">{donor.amount}</div>
                   <div className="donors__amountSub">as contribution</div>
@@ -104,11 +112,8 @@ const TopDonors = () => {
 
         <div className="donors__cta">
           <div className="donors__ctaCard">
-            <div className="donors__ctaTitle">Become a Top Donor</div>
-            <div className="donors__ctaText">
-              Your generous contributions help us provide essential services to families in their time of need. Every donation makes a
-              difference.
-            </div>
+            <div className="donors__ctaTitle">{d.ctaTitle}</div>
+            <div className="donors__ctaText">{d.ctaText}</div>
             <button className="donors__ctaBtn" type="button">
               Make a Donation
             </button>
@@ -120,4 +125,3 @@ const TopDonors = () => {
 };
 
 export default TopDonors;
-

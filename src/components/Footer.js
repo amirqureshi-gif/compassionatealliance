@@ -2,11 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
+import { useSiteSection } from '../context/SiteContentProvider';
+
 import './Footer.css';
 
 import logo from '../assets/logo.png';
 
+const FALLBACK = {
+  about:
+    'Dedicated to providing compassionate support to Qureshi families during their most difficult times. We believe that no family should face the burden of sudden loss alone.',
+  phones: [
+    { label: '+92 300 0797941', href: 'tel:+923000797941' },
+    { label: '+92 300 6014081', href: 'tel:+923006014081' },
+    { label: '+92 321 3616729', href: 'tel:+923213616729' },
+  ],
+  email: 'qureshicompassionatealliance@gmail.com',
+  emailHref: 'mailto:qureshicompassionatealliance@gmail.com',
+  address: 'Chamber Zulqarnain Qureshi, District Courts, Sargodha',
+};
+
 const Footer = () => {
+  const remote = useSiteSection('footer') || {};
+  const d = {
+    ...FALLBACK,
+    ...remote,
+    phones: Array.isArray(remote.phones) && remote.phones.length ? remote.phones : FALLBACK.phones,
+  };
+
   const quickLinks = [
     { name: 'Services', href: '/services' },
     { name: 'Members', href: '/members' },
@@ -37,10 +59,7 @@ const Footer = () => {
                 <div className="footer__brandTag">(Qureshi Family)</div>
               </div>
             </Link>
-            <p className="footer__about">
-              Dedicated to providing compassionate support to Qureshi families during their most difficult times. We
-              believe that no family should face the burden of sudden loss alone.
-            </p>
+            <p className="footer__about">{d.about}</p>
             <div className="footer__social">
               <a href="#" className="footer__socialBtn" aria-label="Facebook">
                 <Facebook className="footer__socialIcon" />
@@ -87,26 +106,22 @@ const Footer = () => {
             <div className="footer__emergencyItem">
               <Phone className="footer__emergencyIcon" />
               <div>
-                <a className="footer__phone" href="tel:+923000797941">
-                  +92 300 0797941
-                </a>
-                <a className="footer__phone" href="tel:+923006014081">
-                  +92 300 6014081
-                </a>
-                <a className="footer__phone" href="tel:+923213616729">
-                  +92 321 3616729
-                </a>
+                {d.phones.map((p) => (
+                  <a key={p.href} className="footer__phone" href={p.href}>
+                    {p.label}
+                  </a>
+                ))}
               </div>
             </div>
             <div className="footer__emergencyItem">
               <Mail className="footer__emergencyIcon" />
-              <a className="footer__email" href="mailto:qureshicompassionatealliance@gmail.com">
-                qureshicompassionatealliance@gmail.com
+              <a className="footer__email" href={d.emailHref}>
+                {d.email}
               </a>
             </div>
             <div className="footer__emergencyItem">
               <MapPin className="footer__emergencyIcon" />
-              <div>Chamber Zulqarnain Qureshi, District Courts, Sargodha</div>
+              <div>{d.address}</div>
             </div>
           </div>
         </div>
@@ -121,4 +136,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

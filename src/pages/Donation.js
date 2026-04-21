@@ -1,9 +1,39 @@
 import React, { useState } from 'react';
 import { Heart, Upload, Send, CreditCard, Smartphone } from 'lucide-react';
 
+import { useSiteSection } from '../context/SiteContentProvider';
+
 import './Donation.css';
 
+const FALLBACK = {
+  heroTitle: 'Thank You for Your Kindness',
+  heroSubtitle:
+    'Your generous donation helps the Qureshi community during difficult times. Every contribution makes a meaningful difference.',
+  accountsTitle: 'Bank Account Details',
+  accountsSubtitle: 'Use any of the accounts below, then upload your slip to confirm.',
+  bank: {
+    bankName: 'UBL',
+    accountNumber: 'PK75UNIL0109000329837675',
+    accountTitle: 'Qureshi Compassionate Alliance',
+  },
+  jazzcash: {
+    accountNumber: '03040571588',
+    accountHolder: 'Muhammad Zulqafil Hashmi',
+  },
+  formTitle: 'Message from Donor',
+  formSubtitle: 'Optionally include a short condolence message with your confirmation.',
+  slipHint: 'Please upload your donation slip so we can send you a confirmation message.',
+};
+
 const Donation = () => {
+  const remote = useSiteSection('donation_page') || {};
+  const d = {
+    ...FALLBACK,
+    ...remote,
+    bank: { ...FALLBACK.bank, ...(remote.bank || {}) },
+    jazzcash: { ...FALLBACK.jazzcash, ...(remote.jazzcash || {}) },
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -50,18 +80,16 @@ const Donation = () => {
           <div className="donationPage__heroBadge" aria-hidden="true">
             <Heart className="donationPage__heroBadgeIcon" />
           </div>
-          <h1 className="donationPage__heroTitle">Thank You for Your Kindness</h1>
-          <p className="donationPage__heroSubtitle">
-            Your generous donation helps the Qureshi community during difficult times. Every contribution makes a meaningful difference.
-          </p>
+          <h1 className="donationPage__heroTitle">{d.heroTitle}</h1>
+          <p className="donationPage__heroSubtitle">{d.heroSubtitle}</p>
         </div>
       </section>
 
       <section className="donationPage__section">
         <div className="donationPage__inner">
           <div className="donationPage__header">
-            <h2 className="donationPage__title">Bank Account Details</h2>
-            <p className="donationPage__subtitle">Use any of the accounts below, then upload your slip to confirm.</p>
+            <h2 className="donationPage__title">{d.accountsTitle}</h2>
+            <p className="donationPage__subtitle">{d.accountsSubtitle}</p>
           </div>
 
           <div className="donationPage__accounts">
@@ -72,16 +100,16 @@ const Donation = () => {
                 </div>
                 <div>
                   <div className="donationPage__accountTitle">Bank Account</div>
-                  <div className="donationPage__accountMeta">UBL</div>
+                  <div className="donationPage__accountMeta">{d.bank.bankName}</div>
                 </div>
               </div>
               <div className="donationPage__kv">
                 <div className="donationPage__k">Bank Account No.</div>
-                <div className="donationPage__v donationPage__mono">PK75UNIL0109000329837675</div>
+                <div className="donationPage__v donationPage__mono">{d.bank.accountNumber}</div>
               </div>
               <div className="donationPage__kv">
                 <div className="donationPage__k">Title of Account</div>
-                <div className="donationPage__v">Qureshi Compassionate Alliance</div>
+                <div className="donationPage__v">{d.bank.accountTitle}</div>
               </div>
             </div>
 
@@ -97,19 +125,19 @@ const Donation = () => {
               </div>
               <div className="donationPage__kv">
                 <div className="donationPage__k">Account Number</div>
-                <div className="donationPage__v donationPage__mono donationPage__bigMono">03040571588</div>
+                <div className="donationPage__v donationPage__mono donationPage__bigMono">{d.jazzcash.accountNumber}</div>
               </div>
               <div className="donationPage__kv">
                 <div className="donationPage__k">Account Holder</div>
-                <div className="donationPage__v">Muhammad Zulqafil Hashmi</div>
+                <div className="donationPage__v">{d.jazzcash.accountHolder}</div>
               </div>
             </div>
           </div>
 
           <div className="donationPage__formCard">
             <div className="donationPage__formHeader">
-              <div className="donationPage__formTitle">Message from Donor</div>
-              <div className="donationPage__formSubtitle">Optionally include a short condolence message with your confirmation.</div>
+              <div className="donationPage__formTitle">{d.formTitle}</div>
+              <div className="donationPage__formSubtitle">{d.formSubtitle}</div>
             </div>
 
             <form onSubmit={handleSubmit} className="donationPage__form">
@@ -128,22 +156,50 @@ const Donation = () => {
               <div className="donationPage__grid3">
                 <div className="donationPage__field">
                   <label className="donationPage__label">Name *</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleInputChange} required className="donationPage__input" />
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="donationPage__input"
+                  />
                 </div>
                 <div className="donationPage__field">
                   <label className="donationPage__label">Email *</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} required className="donationPage__input" />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="donationPage__input"
+                  />
                 </div>
                 <div className="donationPage__field">
                   <label className="donationPage__label">Phone Number *</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required className="donationPage__input" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    className="donationPage__input"
+                  />
                 </div>
               </div>
 
               <div className="donationPage__field">
                 <label className="donationPage__label">Upload Donation Slip Image *</label>
                 <div className="donationPage__upload">
-                  <input type="file" accept="image/*" onChange={handleFileChange} required className="donationPage__file" id="donation-slip" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    required
+                    className="donationPage__file"
+                    id="donation-slip"
+                  />
                   <label htmlFor="donation-slip" className="donationPage__uploadLabel">
                     <Upload className="donationPage__uploadIcon" />
                     <div className="donationPage__uploadText">
@@ -153,7 +209,7 @@ const Donation = () => {
                     </div>
                   </label>
                 </div>
-                <div className="donationPage__hint">Please upload your donation slip so we can send you a confirmation message.</div>
+                <div className="donationPage__hint">{d.slipHint}</div>
               </div>
 
               <button type="submit" className="donationPage__btn">
@@ -169,4 +225,3 @@ const Donation = () => {
 };
 
 export default Donation;
-
