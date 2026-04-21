@@ -36,14 +36,23 @@ const CompassionateCare = () => {
     <section className="care">
       <div className="care__inner">
         <div className="care__header">
-          <h2 className="care__title">Compassionate Care in case of Sudden Death</h2>
+          <p className="care__eyebrow">What we provide</p>
+          <h2 className="care__title">
+            Compassionate Care
+            <span className="care__titleAccent"> in case of Sudden Death</span>
+          </h2>
+          <p className="care__lede">
+            The organization stands with the bereaved family and coordinates dignified funeral support when it is
+            needed most.
+          </p>
           <p className="care__subtitle">
-            Organization facilitates the deceased family in Funeral arrangements i.e.{' '}
+            Funeral arrangements include{' '}
             <span className="care__highlight">
-              Free Ambulance, Free Kafan, Free Grave Yard Process, Free Tent &amp; Catering Service, Free Food Delivery
-              on Qul-Khawani.
+              Free Ambulance, Free Kafan, Free Grave Yard Process, Free Tent &amp; Catering Service, and Free Food
+              Delivery on Qul-Khawani.
             </span>
           </p>
+          <div className="care__divider" aria-hidden="true" />
         </div>
 
         <div className="care__grid">
@@ -61,10 +70,23 @@ const CompassionateCare = () => {
 
         <div className="care__cta">
           <div className="care__ctaCard">
-            <div className="care__ctaTitle">Need Immediate Assistance?</div>
-            <div className="care__ctaText">Our compassionate team is available 24/7 to help families during their most difficult times.</div>
+            <div className="care__ctaTitle">Need immediate assistance?</div>
+            <div className="care__ctaText">
+              Our team is available around the clock for families in the Qureshi community during sudden loss.
+            </div>
+            <div className="care__ctaPhones" role="group" aria-label="Emergency hotlines">
+              <a className="care__ctaPhone" href="tel:+923000797941">
+                +92 300 0797941
+              </a>
+              <a className="care__ctaPhone" href="tel:+923006014081">
+                +92 300 6014081
+              </a>
+              <a className="care__ctaPhone" href="tel:+923213616729">
+                +92 321 3616729
+              </a>
+            </div>
             <a className="care__ctaBtn" href="mailto:qureshicompassionatealliance@gmail.com">
-              Send Email
+              qureshicompassionatealliance@gmail.com
             </a>
           </div>
         </div>

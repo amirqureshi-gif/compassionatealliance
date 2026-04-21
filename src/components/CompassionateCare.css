@@ -1,8 +1,17 @@
+/* Matches home sections: Manifesto / TopDonors / ServicesPreview rhythm and tokens */
+
 .care {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  min-height: clamp(480px, 70vh, 820px);
   padding: 72px 18px;
+  box-sizing: border-box;
 }
 
 .care__inner {
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -12,23 +21,65 @@
   margin-bottom: 22px;
 }
 
+.care__eyebrow {
+  margin: 0 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: color-mix(in oklab, var(--text) 78%, transparent);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
 .care__title {
   margin: 0;
   font-size: clamp(26px, 3.2vw, 44px);
   font-weight: 950;
   letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.care__titleAccent {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  color: color-mix(in oklab, var(--brand) 28%, var(--text));
+}
+
+.care__lede {
+  margin: 12px auto 0;
+  max-width: 70ch;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 16px;
 }
 
 .care__subtitle {
   margin: 12px auto 0;
-  max-width: 78ch;
+  max-width: 72ch;
   color: var(--muted);
   line-height: 1.7;
+  font-size: 16px;
 }
 
 .care__highlight {
-  color: color-mix(in oklab, var(--text) 92%, transparent);
+  color: color-mix(in oklab, var(--text) 93%, transparent);
   font-weight: 800;
+}
+
+.care__divider {
+  margin: 18px auto 0;
+  height: 1px;
+  max-width: 100%;
+  border: 0;
+  background: color-mix(in oklab, var(--border) 80%, transparent);
 }
 
 .care__grid {
@@ -36,9 +87,14 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  align-items: stretch;
 }
 
 .care__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   border-radius: 20px;
   padding: 16px 16px;
   border: 1px solid var(--border);
@@ -49,7 +105,7 @@
 
 .care__card:hover {
   transform: translateY(-3px);
-  border-color: rgba(22, 163, 74, 0.20);
+  border-color: color-mix(in oklab, var(--border) 85%, transparent);
   background: color-mix(in oklab, var(--surfaceB) 92%, transparent);
 }
 
@@ -59,15 +115,15 @@
   border-radius: 16px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, rgba(22, 163, 74, 0.92), rgba(21, 128, 61, 0.72));
   border: 1px solid rgba(22, 163, 74, 0.25);
-  box-shadow: 0 18px 45px rgba(22, 163, 74, 0.18);
+  background: rgba(22, 163, 74, 0.16);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
 }
 
 .care__icon {
-  width: 26px;
-  height: 26px;
-  color: var(--text);
+  width: 24px;
+  height: 24px;
+  color: color-mix(in oklab, var(--text) 92%, transparent);
 }
 
 .care__cardTitle {
@@ -111,6 +167,35 @@
   line-height: 1.6;
 }
 
+.care__ctaPhones {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.care__ctaPhone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 950;
+  font-size: 14px;
+  color: color-mix(in oklab, var(--text) 95%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border-2) 90%, transparent);
+  background: color-mix(in oklab, var(--card-2) 75%, transparent);
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.care__ctaPhone:hover {
+  transform: translateY(-1px);
+  background: var(--card-2);
+  border-color: color-mix(in oklab, var(--border-2) 95%, transparent);
+}
+
 .care__ctaBtn {
   margin-top: 14px;
   display: inline-flex;
@@ -119,14 +204,18 @@
   padding: 12px 16px;
   border-radius: 14px;
   font-weight: 950;
-  background: var(--card-2);
+  font-size: 14px;
+  max-width: 100%;
+  word-break: break-word;
+  color: color-mix(in oklab, var(--text) 95%, transparent);
   border: 1px solid color-mix(in oklab, var(--border-2) 90%, transparent);
+  background: color-mix(in oklab, var(--card-2) 75%, transparent);
   transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 
 .care__ctaBtn:hover {
   transform: translateY(-1px);
-  background: color-mix(in oklab, var(--card-2) 85%, transparent);
+  background: var(--card-2);
   border-color: color-mix(in oklab, var(--border-2) 95%, transparent);
 }
 
@@ -134,5 +223,19 @@
   .care__grid {
     grid-template-columns: 1fr;
   }
+
+  .care {
+    min-height: 0;
+  }
 }
 
+@media (max-width: 640px) {
+  .care__ctaPhones {
+    flex-direction: column;
+  }
+
+  .care__ctaPhone {
+    width: 100%;
+    max-width: 320px;
+  }
+}

@@ -1,5 +1,5 @@
+/* Stack layout + section gaps: see index.css (.home shares page stack rules) */
 .home {
-  display: flex;
-  flex-direction: column;
+  min-height: 0;
 }
 
