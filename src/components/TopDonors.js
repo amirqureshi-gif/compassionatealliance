@@ -1,5 +1,6 @@
 import React from 'react';
 import { Award, Heart, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { useSiteSection } from '../context/SiteContentProvider';
 
@@ -49,13 +50,13 @@ const TopDonors = () => {
   const getRankIcon = (rank) => {
     switch (rank) {
       case 1:
-        return <Award className="w-8 h-8 text-yellow-500" />;
+        return <Award className="donors__rankIcon donors__rankIcon--1" />;
       case 2:
-        return <Star className="w-8 h-8 text-gray-400" />;
+        return <Star className="donors__rankIcon donors__rankIcon--2" />;
       case 3:
-        return <Heart className="w-8 h-8 text-orange-500" />;
+        return <Heart className="donors__rankIcon donors__rankIcon--3" />;
       default:
-        return null;
+        return <Heart className="donors__rankIcon" />;
     }
   };
 
@@ -114,9 +115,9 @@ const TopDonors = () => {
           <div className="donors__ctaCard">
             <div className="donors__ctaTitle">{d.ctaTitle}</div>
             <div className="donors__ctaText">{d.ctaText}</div>
-            <button className="donors__ctaBtn" type="button">
+            <Link className="donors__ctaBtn" to="/donation">
               Make a Donation
-            </button>
+            </Link>
           </div>
         </div>
       </div>
