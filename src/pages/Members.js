@@ -122,13 +122,18 @@ const Members = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formEl = e.currentTarget;
+    if (!formEl) {
+      alert('Form is not ready. Please refresh the page and try again.');
+      return;
+    }
     if (turnstileSiteKey && !turnstileToken) {
       alert('Please complete the security check before submitting.');
       return;
     }
     setFormSubmitting(true);
     try {
-      const fd = new FormData(e.currentTarget);
+      const fd = new FormData(formEl);
       fd.set('turnstileToken', turnstileToken || '');
       await postMembershipForm(fd);
       alert(
@@ -148,7 +153,7 @@ const Members = () => {
       });
       setTurnstileToken('');
       setTurnstileMount((n) => n + 1);
-      const fileInputs = e.currentTarget.querySelectorAll('input[type="file"]');
+      const fileInputs = formEl.querySelectorAll('input[type="file"]');
       fileInputs.forEach((input) => {
         // eslint-disable-next-line no-param-reassign
         input.value = '';

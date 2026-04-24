@@ -81,13 +81,18 @@ const Donation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formEl = e.currentTarget;
+    if (!formEl) {
+      alert('Form is not ready. Please refresh the page and try again.');
+      return;
+    }
     if (turnstileSiteKey && !turnstileToken) {
       alert('Please complete the security check before submitting.');
       return;
     }
     setFormSubmitting(true);
     try {
-      const fd = new FormData(e.currentTarget);
+      const fd = new FormData(formEl);
       fd.set('turnstileToken', turnstileToken || '');
       await postDonationForm(fd);
       alert(
@@ -102,7 +107,7 @@ const Donation = () => {
       });
       setTurnstileToken('');
       setTurnstileMount((n) => n + 1);
-      const fileInput = e.currentTarget.querySelector('input[type="file"]');
+      const fileInput = formEl.querySelector('input[type="file"]');
       if (fileInput) fileInput.value = '';
     } catch (err) {
       alert(err?.message || 'Something went wrong. Please try again later.');
