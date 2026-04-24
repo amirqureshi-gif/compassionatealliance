@@ -1,8 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Users, Star, Award, TrendingUp, Calendar, MapPin, Phone, Mail, Upload } from 'lucide-react';
 
 import { useSiteSection } from '../context/SiteContentProvider';
 import { resolveLucideIcon } from '../utils/lucideMap';
+import { fetchClientConfig, postMembershipForm } from '../api/publicForms';
+import FormHoneypot from '../components/FormHoneypot';
+import TurnstileBox from '../components/TurnstileBox';
 
 import './Members.css';
 
@@ -70,6 +73,10 @@ const Members = () => {
   };
 
   const [activeTab, setActiveTab] = useState('apply');
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileMount, setTurnstileMount] = useState(0);
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     father_name: '',
@@ -98,28 +105,59 @@ const Members = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const c = await fetchClientConfig();
+        if (!cancelled) setTurnstileSiteKey((c && c.turnstileSiteKey) || '');
+      } catch {
+        if (!cancelled) setTurnstileSiteKey('');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('Membership application submitted:', formData);
-    alert('Thank you for your membership application. We will review your application and contact you within 48 hours.');
-    setFormData({
-      name: '',
-      father_name: '',
-      designation: '',
-      cnic: '',
-      phone: '',
-      email: '',
-      monthly_contribution: '',
-      profile_image: null,
-      cnic_image: null,
-      contribution_slip: null,
-    });
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach((input) => {
-      // eslint-disable-next-line no-param-reassign
-      input.value = '';
-    });
+    if (turnstileSiteKey && !turnstileToken) {
+      alert('Please complete the security check before submitting.');
+      return;
+    }
+    setFormSubmitting(true);
+    try {
+      const fd = new FormData(e.currentTarget);
+      fd.set('turnstileToken', turnstileToken || '');
+      await postMembershipForm(fd);
+      alert(
+        'Thank you. Your application was received. A confirmation has been sent to your email; please check your inbox or spam folder.'
+      );
+      setFormData({
+        name: '',
+        father_name: '',
+        designation: '',
+        cnic: '',
+        phone: '',
+        email: '',
+        monthly_contribution: '',
+        profile_image: null,
+        cnic_image: null,
+        contribution_slip: null,
+      });
+      setTurnstileToken('');
+      setTurnstileMount((n) => n + 1);
+      const fileInputs = e.currentTarget.querySelectorAll('input[type="file"]');
+      fileInputs.forEach((input) => {
+        // eslint-disable-next-line no-param-reassign
+        input.value = '';
+      });
+    } catch (err) {
+      alert(err?.message || 'Something went wrong. Please try again later.');
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   const stats = useMemo(() => page.stats, [page.stats]);
@@ -177,7 +215,7 @@ const Members = () => {
             <div className="membersPage__grid2">
               <div className="membersPage__card">
                 <h2 className="membersPage__cardTitle">Membership Application</h2>
-                <form onSubmit={handleSubmit} className="membersPage__form">
+                <form onSubmit={handleSubmit} className="membersPage__form" noValidate>
                   <div className="membersPage__grid2Inner">
                     <div className="membersPage__field">
                       <label className="membersPage__label">Full Name *</label>
@@ -321,8 +359,14 @@ const Members = () => {
                     </div>
                   </div>
 
-                  <button type="submit" className="membersPage__btn">
-                    Submit Application
+                  <FormHoneypot />
+                  <TurnstileBox
+                    key={turnstileMount}
+                    siteKey={turnstileSiteKey}
+                    onToken={setTurnstileToken}
+                  />
+                  <button type="submit" className="membersPage__btn" disabled={formSubmitting}>
+                    {formSubmitting ? 'Submitting…' : 'Submit Application'}
                   </button>
                 </form>
               </div>

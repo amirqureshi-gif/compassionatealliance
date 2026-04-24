@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Send } from 'lucide-react';
 
 import { useSiteSection } from '../context/SiteContentProvider';
+import { fetchClientConfig, postSupportForm } from '../api/publicForms';
+import FormHoneypot from '../components/FormHoneypot';
+import TurnstileBox from '../components/TurnstileBox';
 
 import './SupportSeeker.css';
 
@@ -17,6 +20,11 @@ const SupportSeeker = () => {
   const remote = useSiteSection('support_page') || {};
   const d = { ...FALLBACK, ...remote };
 
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileMount, setTurnstileMount] = useState(0);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const formRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -35,21 +43,56 @@ const SupportSeeker = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const c = await fetchClientConfig();
+        if (!cancelled) setTurnstileSiteKey((c && c.turnstileSiteKey) || '');
+      } catch {
+        if (!cancelled) setTurnstileSiteKey('');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('Support request submitted:', formData);
-    alert('Thank you for your request. Our team will contact you within 2 hours to provide assistance.');
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
-      relationship: '',
-      deceased_name: '',
-      date_of_death: '',
-      additional_info: '',
-    });
+    if (turnstileSiteKey && !turnstileToken) {
+      alert('Please complete the security check before submitting.');
+      return;
+    }
+    setFormSubmitting(true);
+    try {
+      const hpEl = formRef.current && formRef.current.querySelector('input[name="hp_website"]');
+      const hp = (hpEl && hpEl.value) || '';
+      await postSupportForm({
+        ...formData,
+        hp_website: hp,
+        turnstileToken: turnstileToken || ''
+      });
+      alert(
+        'Thank you. Your request was received, and a confirmation has been sent to your email. We will try to follow up with you as soon as possible. Please also check your spam folder.'
+      );
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+        relationship: '',
+        deceased_name: '',
+        date_of_death: '',
+        additional_info: '',
+      });
+      setTurnstileToken('');
+      setTurnstileMount((n) => n + 1);
+    } catch (err) {
+      alert(err?.message || 'Something went wrong. Please try again later.');
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   return (
@@ -69,7 +112,7 @@ const SupportSeeker = () => {
           </div>
 
           <div className="supportPage__card">
-            <form onSubmit={handleSubmit} className="supportPage__form">
+            <form ref={formRef} onSubmit={handleSubmit} className="supportPage__form" noValidate>
               <div className="supportPage__grid2">
                 <div className="supportPage__field">
                   <label className="supportPage__label">Your Full Name *</label>
@@ -167,9 +210,15 @@ const SupportSeeker = () => {
                 />
               </div>
 
-              <button type="submit" className="supportPage__btn">
+              <FormHoneypot />
+              <TurnstileBox
+                key={turnstileMount}
+                siteKey={turnstileSiteKey}
+                onToken={setTurnstileToken}
+              />
+              <button type="submit" className="supportPage__btn" disabled={formSubmitting}>
                 <Send className="supportPage__btnIcon" />
-                Submit Request
+                {formSubmitting ? 'Submitting…' : 'Submit Request'}
               </button>
             </form>
           </div>

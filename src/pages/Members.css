@@ -139,6 +139,7 @@
 }
 
 .membersPage__form {
+  position: relative;
   display: grid;
   gap: 12px;
 }

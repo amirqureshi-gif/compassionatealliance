@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heart, Upload, Send, CreditCard, Smartphone } from 'lucide-react';
 
 import { useSiteSection } from '../context/SiteContentProvider';
+import { fetchClientConfig, postDonationForm } from '../api/publicForms';
+import FormHoneypot from '../components/FormHoneypot';
+import TurnstileBox from '../components/TurnstileBox';
 
 import './Donation.css';
 
@@ -34,6 +37,10 @@ const Donation = () => {
     jazzcash: { ...FALLBACK.jazzcash, ...(remote.jazzcash || {}) },
   };
 
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileMount, setTurnstileMount] = useState(0);
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -57,20 +64,51 @@ const Donation = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const c = await fetchClientConfig();
+        if (!cancelled) setTurnstileSiteKey((c && c.turnstileSiteKey) || '');
+      } catch {
+        if (!cancelled) setTurnstileSiteKey('');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('Donation confirmation submitted:', formData);
-    alert('Thank you for your generous donation. We will send you a confirmation message shortly.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      donation_slip: null,
-    });
-    const fileInput = document.querySelector('input[type="file"]');
-    if (fileInput) fileInput.value = '';
+    if (turnstileSiteKey && !turnstileToken) {
+      alert('Please complete the security check before submitting.');
+      return;
+    }
+    setFormSubmitting(true);
+    try {
+      const fd = new FormData(e.currentTarget);
+      fd.set('turnstileToken', turnstileToken || '');
+      await postDonationForm(fd);
+      alert(
+        'Thank you. Your submission was received, and a confirmation has been sent to your email. Please check your inbox or spam folder.'
+      );
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+        donation_slip: null,
+      });
+      setTurnstileToken('');
+      setTurnstileMount((n) => n + 1);
+      const fileInput = e.currentTarget.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
+    } catch (err) {
+      alert(err?.message || 'Something went wrong. Please try again later.');
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   return (
@@ -140,7 +178,7 @@ const Donation = () => {
               <div className="donationPage__formSubtitle">{d.formSubtitle}</div>
             </div>
 
-            <form onSubmit={handleSubmit} className="donationPage__form">
+            <form onSubmit={handleSubmit} className="donationPage__form" noValidate>
               <div className="donationPage__field">
                 <label className="donationPage__label">Message</label>
                 <textarea
@@ -194,6 +232,7 @@ const Donation = () => {
                 <div className="donationPage__upload">
                   <input
                     type="file"
+                    name="donation_slip"
                     accept="image/*"
                     onChange={handleFileChange}
                     required
@@ -212,9 +251,15 @@ const Donation = () => {
                 <div className="donationPage__hint">{d.slipHint}</div>
               </div>
 
-              <button type="submit" className="donationPage__btn">
+              <FormHoneypot />
+              <TurnstileBox
+                key={turnstileMount}
+                siteKey={turnstileSiteKey}
+                onToken={setTurnstileToken}
+              />
+              <button type="submit" className="donationPage__btn" disabled={formSubmitting}>
                 <Send className="donationPage__btnIcon" />
-                Submit Donation Confirmation
+                {formSubmitting ? 'Submitting…' : 'Submit Donation Confirmation'}
               </button>
             </form>
           </div>

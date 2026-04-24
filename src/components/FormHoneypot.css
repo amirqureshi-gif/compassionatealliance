@@ -1,0 +1,12 @@
+.formHp {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.formHp input {
+  width: 120px;
+}
